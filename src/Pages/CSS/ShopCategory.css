@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
 /* General Styles */
 .shop-category {
     display: flex;
@@ -47,7 +48,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px auto;
     padding: 20px 40px;
     border-radius: 75px;
     background: #ededed;
@@ -55,6 +55,10 @@
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
+    button
+    {
+      background: whitesmoke;
+    }
   }
   
   /* Sidebar CSS */
@@ -220,16 +224,20 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
   }
 
   .sidebar .filter-section {
     margin-bottom: 20px;
+    text-align: center;
   }
 
-  .sidebar .filter-section h3 {
-    font-size: 18px;
+  .sidebar .filter-section .header-filter h3 {
+    font-size: 2rem;
     margin-bottom: 10px;
     color: #333;
+
+    /* font-family: "Irish Grover",sans-serif; */
   }
 
   .sidebar .filter-section div {
