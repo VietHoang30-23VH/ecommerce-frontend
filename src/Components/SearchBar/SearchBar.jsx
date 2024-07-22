@@ -8,6 +8,9 @@ const SearchBar = ({ onSearch }) => {
         type="text"
         placeholder="Search products..."
         onChange={(e) => onSearch(e.target.value)}
+        style = {{
+          margin:"0.5px"
+        }}
       />
     </div>
   );
