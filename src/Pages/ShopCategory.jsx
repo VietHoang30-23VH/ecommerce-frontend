@@ -1,15 +1,15 @@
-import React, { useContext , useState } from 'react';
-import './CSS/ShopCatebpgory.css';
+import React, { useContext, useState } from 'react';
+import './CSS/ShopCategory.css';
 import { ShopContext } from '../Context/ShopContext';
 import dropdown_icon from '../Components/assets/dropdown_icon.png';
 import Item from '../Components/Item/Item';
 import SearchBar from '../Components/SearchBar/SearchBar';
 import Sidebar from '../Components/Sidebar/Sidebar';
 
-
-
 const ShopCategory = (props) => {
-  const { all_product } = useContext(ShopContext); // đảm bảo rằng tên biến khớp với tên biến trong ShopContext
+  const { products } = useContext(ShopContext);
+
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     categories: [],
@@ -50,7 +50,7 @@ const ShopCategory = (props) => {
   ];
   const genders = ['Men', 'Women', 'Kids'];
 
-  const filteredProducts = all_product.filter(item => {
+  const filteredProducts = products?.filter(item => {
     const categoryMatch = filters.categories.length ? filters.categories.includes(item.category) : true;
     const genderMatch = filters.gender ? item.gender === filters.gender : true;
     const priceMatch = item.new_price <= filters.price;
@@ -80,16 +80,16 @@ const ShopCategory = (props) => {
             </div>
           </div>
           <div className="shopcategory-products">
-            {filteredProducts.map((item, i) => (
+            { products.map((item, i) => (
               <Item
                 key={i}
                 id={item.id}
                 name={item.name}
                 new_price={item.new_price}
-                old_price={item.old_price}
-                image={item.image}
+                // old_price={item.old_price}
+                image={item.pathImage}
               />
-            ))}
+            )) }
           </div>
           <div className="shopcategory-loadmore">Explore more</div>
         </div>

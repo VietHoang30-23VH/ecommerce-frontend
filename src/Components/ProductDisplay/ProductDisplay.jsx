@@ -1,59 +1,63 @@
-import React, { useContext } from 'react'
-import './ProductDisplay.css'
-import start_icon from '../assets/star_icon.png'
-import start_dull_icon from '../assets/star_dull_icon.png'
-import { ShopContext } from '../../Context/ShopContext'
+import React from 'react';
+import './ProductDisplay.css';
+import star_icon from '../assets/star_icon.png';
+import star_dull_icon from '../assets/star_dull_icon.png';
 
 const ProductDisplay = (props) => {
-    const { product } = props
-    const {addToCart} = useContext(ShopContext)
+    const { product } = props;
+    console.log(product);
+
+    if (!product) {
+        return <div>No product data available</div>;
+    }
 
     return (
         <div className='productdisplay'>
             <div className="productdisplay-left">
                 <div className="productdisplay-img-list">
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
+                    {/* Assuming product.pathImage is the URL for the image */}
+                    <img src={product.pathImage} alt="product" />
+                    <img src={product.pathImage} alt="product" />
+                    <img src={product.pathImage} alt="product" />
+                    <img src={product.pathImage} alt="product" />
                 </div>
                 <div className="productdisplay-img">
-                    <img className='productdisplay-main-img' src={product.image} alt="" />
+                    <img className='productdisplay-main-img' src={product.pathImage} alt="product" />
                 </div>
             </div>
             <div className="productdisplay-right">
                 <h1>{product.name}</h1>
                 <div className="productdisplay-right-stars">
-                    <img src={start_icon} alt="" />
-                    <img src={start_icon} alt="" />
-                    <img src={start_icon} alt="" />
-                    <img src={start_icon} alt="" />
-                    <img src={start_dull_icon} alt="" />
+                    <img src={star_icon} alt="star icon" />
+                    <img src={star_icon} alt="star icon" />
+                    <img src={star_icon} alt="star icon" />
+                    <img src={star_icon} alt="star icon" />
+                    <img src={star_dull_icon} alt="dull star icon" />
                     <p>122</p>
                 </div>
                 <div className="productdisplay-right-prices">
-                    <div className="productdisplay-right-price-old">${product.old_price}</div>
-                    <div className="productdisplay-right-price-new">${product.new_price}</div>
+                    {/* <div className="productdisplay-right-price-old">${product.price}</div> */}
+                    <div className="productdisplay-right-price-new">${product.price}</div>
                 </div>
                 <div className="productdisplay-right-description">
-                    A lightweight, easy-to-use, and feature-rich online shopping cart software that doesn't require a degree in rocket science to set up and use.
+                    {product.longDescription}
                 </div>
                 <div className="productdisplay-right-size">
                     <h1>Select Size</h1>
                     <div className="productdisplay-right-sizes">
-                        <div >S</div>
-                        <div >M</div>
-                        <div >L</div>
-                        <div >XL</div>
-                        <div >XLL</div>
+                        <div>S</div>
+                        <div>M</div>
+                        <div>L</div>
+                        <div>XL</div>
+                        <div>XXL</div>
                     </div>
                 </div>
-                <button onClick={() => {addToCart(product.id)}}>ADD TO CART</button>
+                <button>ADD TO CART</button>
                 <p className='productdisplay-right-category'><span>Category: <span>Women, T-Shirt, Crop Top</span></span></p>
                 <p className='productdisplay-right-category'><span>Tags: <span>Modern, Latest</span></span></p>
             </div>
         </div>
-    )
+    );
 }
 
 export default ProductDisplay;
