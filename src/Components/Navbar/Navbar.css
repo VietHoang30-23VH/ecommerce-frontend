@@ -3,7 +3,10 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    top:0.5rem;
+    top:0.75rem;
+    margin: 0 2rem;
+    z-index: 1000; /* Đảm bảo navbar nằm phía trước các phần tử khác */
+    position: sticky;
    }
 
    .nav-header{
@@ -29,6 +32,7 @@
     font-size: 20px;
     font-weight: 500;
     font-family: 'Kelly Slab', sans-serif;
+
    }
    
    .nav-menu li {

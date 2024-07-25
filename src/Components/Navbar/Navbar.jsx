@@ -8,7 +8,7 @@ import SearchBar from '../SearchBar/SearchBar';
 const Navbar = () => {
     const [menu, setMenu] = useState('shop');
     const [setSearchTerm] = useState('');
-    const {getTotalCartItems} = useContext(ShopContext);
+    // const {getTotalCartItems} = useContext(ShopContext);
     const handleSearch = (term) => {
         setSearchTerm(term);
       };
@@ -24,7 +24,7 @@ const Navbar = () => {
             </ul>
             <div className="nav-login-cart">
                 <SearchBar onSearch={handleSearch} />
-                <div className="nav-cart-count">{getTotalCartItems()}</div>
+                <div className="nav-cart-count"></div>
             </div>
         </div>
         <div className="nav-header">

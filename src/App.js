@@ -11,7 +11,6 @@ import Footer from './Components/Footer/Footer';
 import banner_mens from './Components/assets/banner_mens.png'
 import banner_womens from './Components/assets/banner_women.png'
 import banner_kids from './Components/assets/banner_kids.png'
-
 // import { jsonServerRestClient, Admin, Resource } from 'admin-on-rest';
 
 // import { PostList } from './posts';
@@ -20,6 +19,7 @@ function App() {
   return (
     <div> 
       <BrowserRouter>
+      <Navbar/>
         <Routes>
           <Route path="/" element={<Shop />} />
           <Route path="/mens" element={<ShopCategory banner ={banner_mens} category="men" />} />
