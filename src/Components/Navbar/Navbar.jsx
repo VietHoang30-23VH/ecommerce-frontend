@@ -4,10 +4,15 @@ import logo from '../assets/logo.png';
 import cart_icon from '../assets/cart_icon.png';
 import { Link } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Navbar = () => {
     const [menu, setMenu] = useState('shop');
-
+    const [setSearchTerm] = useState('');
+    const {getTotalCartItems} = useContext(ShopContext);
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+      };
 
     return (
         <div className="navbar">
@@ -22,6 +27,8 @@ const Navbar = () => {
                 <li onClick={() => {setMenu('kids')}}><Link style={{textDecoration: 'none'}} to= '/kids'>Kid</Link>{menu === 'kids' && <hr/>}</li>
             </ul>
             <div className="nav-login-cart">
+            <SearchBar onSearch={handleSearch} />
+            <div className="nav-cart-count">{getTotalCartItems()}</div>
                <Link  to ='/login'> <button>Login</button></Link>
                <Link to ='/cart'> <img src={cart_icon} alt="" /></Link>
                 <div className="nav-cart-count"></div>

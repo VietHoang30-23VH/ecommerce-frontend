@@ -7,7 +7,7 @@ import SearchBar from '../Components/SearchBar/SearchBar';
 import Sidebar from '../Components/Sidebar/Sidebar';
 
 const ShopCategory = (props) => {
-  const { products } = useContext(ShopContext);
+  const { all_product } = useContext(ShopContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     categories: [],
@@ -84,7 +84,7 @@ const ShopCategory = (props) => {
   const genders = ['Men', 'Women', 'Kids'];
 
   useEffect(() => {
-    const filteredProducts = products.filter(item => {
+    const filteredProducts = all_product.filter(item => {
       const categoryMatch = filters.categories.length ? filters.categories.includes(item.category) : true;
       const genderMatch = filters.gender ? item.gender === filters.gender : true;
       const priceMatch = item.new_price <= filters.price;
@@ -93,9 +93,9 @@ const ShopCategory = (props) => {
     });
 
     setTotalPages(Math.ceil(filteredProducts.length / productsPerPage));
-  }, [filters, searchTerm, products, productsPerPage]);
+  }, [filters, searchTerm, all_product, productsPerPage]);
 
-  const filteredProducts = products.filter(item => {
+  const filteredProducts = all_product.filter(item => {
     const categoryMatch = filters.categories.length ? filters.categories.includes(item.category) : true;
     const genderMatch = filters.gender ? item.gender === filters.gender : true;
     const priceMatch = item.new_price <= filters.price;
@@ -131,7 +131,7 @@ const ShopCategory = (props) => {
             </div>
           </div>
           <div className="shopcategory-products">
-            {products.map((item, i) => (
+            {displayedProducts.map((item, i) => (
               <Item
                 key={i}
                 id={item.id}

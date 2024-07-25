@@ -10,13 +10,11 @@ import Footer from './Components/Footer/Footer';
 import banner_mens from './Components/assets/banner_mens.png';
 import banner_womens from './Components/assets/banner_women.png';
 import banner_kids from './Components/assets/banner_kids.png';
-import SessionHandler from './Session/SessionHandler'; // Adjust the path as needed
 
 function App() {
     return (
         <div>
             <BrowserRouter>
-                {/* <SessionHandler> */}
                     <Navbar />
                     <Routes>
                         <Route path="/" element={<Shop />} />
@@ -30,7 +28,6 @@ function App() {
                         <Route path="/login" element={<LoginSignup />} />
                     </Routes>
                     <Footer />
-                {/* </SessionHandler> */}
             </BrowserRouter>
         </div>
     );
