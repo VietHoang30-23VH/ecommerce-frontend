@@ -7,14 +7,13 @@ import SearchBar from '../Components/SearchBar/SearchBar';
 import Sidebar from '../Components/Sidebar/Sidebar';
 
 const ShopCategory = (props) => {
-  const { all_product } = useContext(ShopContext);
+  const { all_product } = useContext(ShopContext); 
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     categories: [],
     gender: '',
     price: 500,
   });
-
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
@@ -136,9 +135,9 @@ const ShopCategory = (props) => {
                 key={i}
                 id={item.id}
                 name={item.name}
-                new_price={item.price}
-                // old_price={item.old_price}
-                image={item.pathImage}
+                new_price={item.new_price}
+                old_price={item.old_price}
+                image={item.image}
               />
             ))}
           </div>
