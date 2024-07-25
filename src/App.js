@@ -20,7 +20,6 @@ function App() {
   return (
     <div> 
       <BrowserRouter>
-        <Navbar />
         <Routes>
           <Route path="/" element={<Shop />} />
           <Route path="/mens" element={<ShopCategory banner ={banner_mens} category="men" />} />
@@ -33,13 +32,7 @@ function App() {
           <Route path ='/login' element={<LoginSignup />} />
         </Routes>
         <Footer/>
-
       </BrowserRouter>
-
-{/* <Admin restClient={jsonServerRestClient('http://jsonplaceholder.typicode.com')}>
-        <Resource name="posts" list={PostList} />
-    </Admin> */}
-
     </div>
   );
 }

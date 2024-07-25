@@ -1,32 +1,36 @@
 import React, { useContext, useState } from 'react';
 import './Navbar.css';
-import logo from '../assets/logo.png';
-import cart_icon from '../assets/cart_icon.png';
+import { RxDividerVertical } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Navbar = () => {
     const [menu, setMenu] = useState('shop');
+    const [setSearchTerm] = useState('');
     const {getTotalCartItems} = useContext(ShopContext);
-
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+      };
     return (
+        <>
         <div className="navbar">
-            <div className="nav-logo">
-                <img src={logo} alt="" />
-                <p>SHOPPEE</p>
-            </div>
             <ul className='nav-menu'>
-                <li onClick={() => {setMenu('shop')}}><Link style={{textDecoration: 'none'}} to= '/'>Shop</Link> {menu === 'shop' && <hr/>}</li>
-                <li onClick={() => {setMenu('mens')}}><Link style={{textDecoration: 'none'}} to= '/mens'>Men</Link>{menu === 'mens' && <hr/>}</li>
-                <li onClick={() => {setMenu('womens')}}><Link style={{textDecoration: 'none'}} to= '/womens'>Women</Link>{menu === 'womens' && <hr/>}</li>
-                <li onClick={() => {setMenu('kids')}}><Link style={{textDecoration: 'none'}} to= '/kids'>Kid</Link>{menu === 'kids' && <hr/>}</li>
+                <li onClick={() => {setMenu('shop')}}><Link style={{textDecoration: 'none', color:'white'}} to= '/'>Collections</Link> {menu === 'shop' && <hr/>}</li>
+                <RxDividerVertical style={{fontSize:'2rem'}}/>
+                <li onClick={() => {setMenu('mens')}}><Link style={{textDecoration: 'none',color:'white'}} to= '/mens'>Man</Link>{menu === 'mens' && <hr/>}</li>
+                <RxDividerVertical style={{fontSize:'2rem'}}/>
+                <li onClick={() => {setMenu('womens')}}><Link style={{textDecoration: 'none',color:'white'}} to= '/womens'>Women</Link>{menu === 'womens' && <hr/>}</li>
             </ul>
             <div className="nav-login-cart">
-               <Link  to ='/login'> <button>Login</button></Link>
-               <Link to ='/cart'> <img src={cart_icon} alt="" /></Link>
+                <SearchBar onSearch={handleSearch} />
                 <div className="nav-cart-count">{getTotalCartItems()}</div>
             </div>
         </div>
+        <div className="nav-header">
+        <p>B̳̿͟͞r̳̿͟͞a̳̿͟͞n̳̿͟͞d̳̿͟͞s̳̿͟͞</p>
+        </div>
+        </>
     );
 };
 
