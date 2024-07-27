@@ -5,7 +5,7 @@ import dropdown_icon from '../Components/assets/dropdown_icon.png';
 import Item from '../Components/Item/Item';
 import SearchBar from '../Components/SearchBar/SearchBar';
 import Sidebar from '../Components/Sidebar/Sidebar';
-
+import SecondNavbar from '../Components/SecondNavbar/SecondNavbar';
 const ShopCategory = (props) => {
   const { all_product } = useContext(ShopContext); 
   const [searchTerm, setSearchTerm] = useState('');
@@ -109,7 +109,7 @@ const ShopCategory = (props) => {
 
   return (
     <div className='shop-category'>
-
+      <SecondNavbar/>
       <div className="shop-category-content">
         <Sidebar
           categories={categories}
