@@ -2,13 +2,17 @@
    .navbar {
     display: flex;
     flex-direction: column;
-    position: relative;
-    top:0.75rem;
-    margin: 0 2rem;
-    z-index: 1000; /* Đảm bảo navbar nằm phía trước các phần tử khác */
-    position: sticky;
+    position: fixed;
+    top:0;
+    width: 100%;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
    }
 
+   .navbar.scrolled {
+    background-color: black;
+    padding:15px 0; 
+}
    .nav-header{
     display: flex;
     align-items: center;
@@ -27,12 +31,11 @@
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 10px;
+    gap: 50px;
     color:white;
     font-size: 20px;
     font-weight: 500;
     font-family: 'Kelly Slab', sans-serif;
-
    }
    
    .nav-menu li {
@@ -90,4 +93,3 @@
         background-color: red;
         color: white;
     }
-

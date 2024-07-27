@@ -7,7 +7,6 @@ import { RiDoubleQuotesR } from "react-icons/ri";
 const Hero = () => {
     return (
         <div className='hero'>
-            
             <div className="hero-content">
                 <div className="hero-left">
                     <div>
