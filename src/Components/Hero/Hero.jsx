@@ -1,6 +1,6 @@
 import React from 'react';
 import './Hero.css';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../Navbar/Navbar'
 import { Link } from 'react-router-dom';
 import { RiDoubleQuotesL } from "react-icons/ri";
 import { RiDoubleQuotesR } from "react-icons/ri";
