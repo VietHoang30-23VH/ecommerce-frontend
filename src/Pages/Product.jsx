@@ -5,9 +5,10 @@ import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
 import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
 import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 import { retrieveProductById } from '../API/ApiProduct';
+import SecondNavbar from '../Components/SecondNavbar/SecondNavbar';
 
 const Product = () => {
-  const { productId } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +16,7 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await retrieveProductById(productId);
+        const data = await retrieveProductById(id);
         setProduct(data);
         setLoading(false);
       } catch (error) {
@@ -25,7 +26,7 @@ const Product = () => {
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [id]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -39,6 +40,7 @@ const Product = () => {
 
   return (
     <div>
+       <SecondNavbar />
       <Breadcrum product={product} />
       <ProductDisplay product={product} />
       <DescriptionBox />

@@ -1,23 +1,37 @@
-import React ,{useContext} from 'react'
-import './RelatedProducts.css'
-import Item from '../Item/Item.jsx'
-import { ShopContext } from '../../Context/ShopContext.jsx'
-
+import React, { useState, useEffect } from 'react';
+import './RelatedProducts.css';
+import Item from '../Item/Item.jsx';
+import { retrieveRandomProduct } from '../../API/ApiProduct.js';
 
 const RelatedProducts = () => {
-  const {products} = useContext(ShopContext);
-  console.log(products)
+  const [products, setProduct] = useState([]);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+        const response = await retrieveRandomProduct(5);
+        setProduct(response);
+    };
+    fetchProduct();
+  }, []); 
+
+
   return (
     <div className='relatedproducts'>
-        <h1>Related Products</h1>
-        <hr />
-        <div className="relatedproducts-item">
-            {products.map((item,i) => {
-            return <Item key={i} id={item.id} name={item.name} new_price={item.new_price} old_price={item.old_price} image={item.image} />
-            })}
-        </div>
+      <h1>Related Products</h1>
+      <hr />
+      <div className="relatedproducts-item">
+        {products.map((item, i) => (
+          <Item
+            key={i}
+            id={item.id}
+            name={item.name}
+            new_price={item.price}
+            image={item.pathImage}
+          />
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default RelatedProducts;

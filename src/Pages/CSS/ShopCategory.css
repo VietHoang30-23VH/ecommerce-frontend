@@ -45,6 +45,13 @@
     width: 100%;
     max-width: 1200px;
   }
+
+  .error-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
   
   .shopcategory-loadmore {
     display: flex;

@@ -1,27 +1,29 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Navbar.css';
 import { RxDividerVertical } from "react-icons/rx";
 import { Link } from 'react-router-dom';
-import { ShopContext } from '../../Context/ShopContext';
 import SearchBar from '../SearchBar/SearchBar';
 
+import { CartContext } from '../../Context/CartContext';
+
 const Navbar = () => {
+    const { getTotalQuantityInCart, quantity } = useContext(CartContext);
     const [menu, setMenu] = useState('shop');
-    const [ setSearchTerm] = useState('');
-    const { getTotalCartItems } = useContext(ShopContext);
     const [navbarScrolled, setNavbarScrolled] = useState(false);
 
-    const handleSearch = (term) => {
-        setSearchTerm(term);
+    // Fetch cart data function
+    const fetchCart = async () => {
+        try {
+            await getTotalQuantityInCart();
+        } catch (error) {
+            console.error('Failed to fetch cart. Please try again later.');
+        }
     };
 
+    // Handle scroll event
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 700) {
-                setNavbarScrolled(true);
-            } else {
-                setNavbarScrolled(false); 
-            }
+            setNavbarScrolled(window.scrollY > 80);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -34,28 +36,30 @@ const Navbar = () => {
     return (
         <>
             <div className="nav-header">
-                <p>B̳̿͟͞r̳̿͟͞a̳̿͟͞n̳̿͟͞d̳̿͟͞s̳̿͟͞</p>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <p>XUN_DON</p>
+                </Link>
             </div>
             <div className={`navbar ${navbarScrolled ? 'scrolled' : ''}`}>
                 <ul className='nav-menu'>
                     <li onClick={() => setMenu('shop')}>
-                        <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>Collections</Link>
+                        <Link to={`/product/gender/nam`} style={{ textDecoration: 'none', color: 'inherit' }}>NAM</Link>
                         {menu === 'shop' && <hr />}
                     </li>
                     <RxDividerVertical style={{ fontSize: '2rem' }} />
-                    <li onClick={() => setMenu('mens')}>
-                        <Link to='/mens' style={{ textDecoration: 'none', color: 'inherit' }}>Man</Link>
-                        {menu === 'mens' && <hr />}
-                    </li>
-                    <RxDividerVertical style={{ fontSize: '2rem' }} />
                     <li onClick={() => setMenu('womens')}>
-                        <Link to='/womens' style={{ textDecoration: 'none', color: 'inherit' }}>Women</Link>
+                        <Link to={`/product/gender/nữ`} style={{ textDecoration: 'none', color: 'inherit' }}>NỮ</Link>
                         {menu === 'womens' && <hr />}
                     </li>
+                    <RxDividerVertical style={{ fontSize: '2rem' }} />
+                    <li onClick={() => setMenu('kids')}>
+                        <Link to={`/product/gender/trẻ em`} style={{ textDecoration: 'none', color: 'inherit' }}>TRẺ EM</Link>
+                        {menu === 'kids' && <hr />}
+                    </li>
                 </ul>
-                <div className="nav-login-cart">
-                    <SearchBar onSearch={handleSearch} />
-                    <div className="nav-cart-count">{getTotalCartItems()}</div>
+                <div className="nav-login-cart" onClick={fetchCart}>
+                    <SearchBar />
+                    <div className="nav-cart-count">{quantity === undefined ? 0 : quantity}</div>
                 </div>
             </div>
         </>

@@ -1,31 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SliderBar.css';
+import { retrieveCategories } from '../../API/ApiCategory';
 
-const SideBar = ({ categories, genders, onCategoryChange, onGenderChange, onPriceChange }) => {
-  const [visibleCategories, setVisibleCategories] = useState({});
-
-  // Toggle visibility of children categories
-  const toggleVisibility = (categoryId) => {
-    setVisibleCategories((prevState) => ({
-      ...prevState,
-      [categoryId]: !prevState[categoryId],
-    }));
-  };
+const SideBar = () => {
+// const {}
 
   return (
     <div className="sidebar">
       <div className="filter-section">
         <div className="header-filter">
-        <h3>Categories</h3>
+          <h3>Categories</h3>
         </div>
         {categories.map((category) => (
           <div key={category.id}>
             <button
               id={category.id}
-              onClick={() => {
-                onCategoryChange(category.name);
-                toggleVisibility(category.id);
-              }}
+              
               style={{
                 background: 'none',
                 border: 'none',
@@ -37,24 +27,24 @@ const SideBar = ({ categories, genders, onCategoryChange, onGenderChange, onPric
                 fontWeight: 'bolder',
                 position: 'relative',
                 display: 'inline-block',
-                
+
               }}
             >
               {category.name}
               <span
-              style={{
-                position: 'absolute',
-                bottom: '-2px', 
-                left: 2,
-                right: 2,
-                borderBottom: '1px solid black', 
-                content: ' ',
-                display: 'block',
-                height: '1px',
-              }}
+                style={{
+                  position: 'absolute',
+                  bottom: '-2px',
+                  left: 2,
+                  right: 2,
+                  borderBottom: '1px solid black',
+                  content: ' ',
+                  display: 'block',
+                  height: '1px',
+                }}
               />
             </button>
-            {category.children && (
+            {/* {category.children && (
               <div className={`sub-categories ${visibleCategories[category.id] ? 'expanded' : ''}`}>
                 {category.children.map((sub) => (
                   <div key={sub.id}>
@@ -78,13 +68,13 @@ const SideBar = ({ categories, genders, onCategoryChange, onGenderChange, onPric
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         ))}
       </div>
       <div className="filter-section">
         <h3>Gender</h3>
-        {genders.map((gender) => (
+        {/* {genders.map((gender) => (
           <div key={gender}>
             <input
               type="radio"
@@ -95,12 +85,12 @@ const SideBar = ({ categories, genders, onCategoryChange, onGenderChange, onPric
             />
             <label htmlFor={gender}>{gender}</label>
           </div>
-        ))}
+        ))} */}
       </div>
-      <div className="filter-section">
+      {/* <div className="filter-section">
         <h3>Price Range</h3>
         <input type="range" min="0" max="500" onChange={(e) => onPriceChange(e.target.value)} />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -8,7 +8,7 @@
     z-index: 1000;
     background-color: white;
     border-bottom:1px solid black ;
-    padding: 5px 0 15px 0;
+    padding: 1rem 2rem;
    }
    .nav-header1{
     align-items: center;
@@ -26,12 +26,15 @@
     position: absolute;
     top:0;
    } 
+   .nav-header1 p{
+    color: black;
+   }
 
    .nav-menu1 {
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 50px;
+    gap: 15px;
     color:black;
     font-size: 20px;
     font-weight: 500;
@@ -81,16 +84,17 @@
     }
 
     .nav-cart-count{
-        width: 22px;
+        width: 35px;
         height: 22px;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: -35px;
-        margin-left: -55px;
-        border-radius: 11px;
+        margin-top: -36px;
+        margin-left: -57px;
+        border-radius: 13px;
         font-size: 14px;
-        background-color: red;
+        background-color: #ff00008c;
         color: white;
+        font-weight: 700;
     }
 

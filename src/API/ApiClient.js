@@ -7,6 +7,8 @@ export const api = axios.create({
     withCredentials: true, // Đảm bảo gửi cookie với mỗi yêu cầu
 });
 
+console.log('api', api);
+
 // Thêm interceptor để thêm token JWT vào headers của mỗi yêu cầu
 api.interceptors.request.use(
     config => {
@@ -48,10 +50,22 @@ export const registerUser = async (username, email, password) => {
 // Hàm đăng nhập người dùng
 export const loginUser = async (emailOrUserName, password) => {
     try {
-        const response = await api.post('/auth/login', { emailOrUserName, password });
-        return response.data;
+        const response = await api.post('/auth/login', { emailOrUserName, password })
+        return response.data;  
     } catch (error) {
         console.log('Can not login', error);
         throw error;
     }
 }
+
+// export const checkAuth = async () => {
+//     try {
+//         const response = await api.get('/auth/check'); 
+//         return response.data; 
+//     } catch (error) {
+//         console.log('Cannot check authentication', error);
+//         // throw error;
+//     }
+// };
+
+

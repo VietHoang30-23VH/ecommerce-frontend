@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './CSS/LoginSignup.css';
 import { loginUser, registerUser } from '../API/ApiClient';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-// import start_icon from '../assets/star_icon.png'; // Adjust the import as needed
-// import start_dull_icon from '../assets/star_dull_icon.png'; // Adjust the import as needed
+import { useNavigate ,useLocation } from 'react-router-dom';
+import { CartContext } from '../Context/CartContext';
 
 const LoginSignup = () => {
+  // xac thuc dang nhap
+ const{checkLogin} = useContext(CartContext);
+
   const [showSignup, setShowSignup] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -15,11 +16,7 @@ const LoginSignup = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
 
   const navigation = useNavigate();
-
-  console.log(username);
-  console.log(email);
-  console.log(password);
-  console.log(confirmPassword);
+  const location = useLocation();
   useEffect(() => {
     const pwShowHide = document.querySelectorAll('.eye-icon');
 
@@ -73,17 +70,17 @@ const LoginSignup = () => {
   const handleSingin = async (e) => {
     e.preventDefault();
     try {
-      await loginUser(emailOrUsername, password);
-      navigation('/');
-      const jwt = Cookies.get('jwt');
-      console.log('JWT from cookie:', jwt);
+        await loginUser(emailOrUsername, password);
+       await checkLogin();
+        const redirectTo = location.state?.from?.pathname || '/';
+        navigation(redirectTo); // Quay lại vị trí đã lưu
     } catch (error) {
-      console.error('Error in handleSignin:', error);
-
+        console.error('Error in handleSignin:', error);
     }
-  }
+};
 
 
+  
     return (
       <section className={`container forms ${showSignup ? 'show-signup' : ''}`}>
         <div className="form login">
