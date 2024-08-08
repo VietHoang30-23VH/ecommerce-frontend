@@ -5,30 +5,19 @@
     position: fixed;
     top:0;
     width: 100%;
-    z-index: 1000;
+    z-index: 2;
     background-color: white;
     border-bottom:1px solid black ;
     padding: 1rem 2rem;
    }
    .nav-header1{
-    align-items: center;
+    display: flex;
     gap: 10px;
     justify-content: center;
-    color: black;
-    margin-left:45rem;
+    gap: 10px;
+    justify-content: center;
    }
 
-   .nav-header1 p{
-    color: black;
-    font-size: 35px;
-    font-weight: 300;
-    font-style: italic;
-    position: absolute;
-    top:0;
-   } 
-   .nav-header1 p{
-    color: black;
-   }
 
    .nav-menu1 {
     display: flex;
@@ -97,4 +86,20 @@
         color: white;
         font-weight: 700;
     }
+
+
+.nav-header1 {
+    display: flex;
+    width: 100%; /* Chiếm toàn bộ chiều rộng của navbar1 */
+    margin-bottom: 1rem; /* Khoảng cách giữa header và menu */
+}
+
+.nav-header1 p {
+    color: black;
+    font-size: 35px;
+    font-weight: 300;
+    /* font-style: italic; */
+    margin: 0; /* Xóa khoảng cách mặc định của phần tử p */
+    /* position: fixed; */
+}
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Shop from './Pages/Shop';
@@ -13,14 +13,34 @@ import banner_kids from './Components/assets/banner_kids.png';
 import ShopContextProvider from './Context/ShopContext';
 import SearchProductPage from './Pages/SearchProductPage';
 import CartContextProvider from './Context/CartContext';
+import { DarkModeContext } from './Admin/context/darkModeContext'
+import Home from './Admin/pages/home/Home'
+import List from "./Admin/pages/list/List";
+import Single from "./Admin/pages/single/Single";
+import New from "./Admin/pages/new/New";
+import './Admin/style/dark.css';
+import ProtectedRoute from './Admin/pages/ProtectedRoute';
+import ProductList from './Admin/pages/list/productList/ProductList';
+import DetailViewProduct from './Admin/components/detailView/DetailViewProduct'
+import EditProduct from './Admin/components/edit/EditProduct';
+import AddNewProduct from './Admin/pages/new/AddNewProduct';
+import OrderList from './Admin/pages/list/orderList/OrderList';
+
+
+
 
 
 function App() {
+
+  const { darkMode } = useContext(DarkModeContext);
+
   return (
+    // <div className={darkMode ? "app dark" : "app"}>
     <BrowserRouter>
       <ShopContextProvider>
         <CartContextProvider>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Shop />} />
             <Route path="/mens" element={<ShopCategory banner={banner_mens} category="men" />} />
             <Route path="/womens" element={<ShopCategory banner={banner_womens} category="women" />} />
@@ -31,11 +51,46 @@ function App() {
             <Route path='/product/:id' element={<Product />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<LoginSignup />} />
+
+            {/* Admin */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin/dashboard" element={<Home />} />
+              <Route path="/users">
+                <Route index element={<List />} />
+                <Route path=":userId" element={<Single />} />
+              </Route>
+
+              <Route path="/products">
+                <Route index element={<ProductList />} />
+                <Route path=":productId" element={<Single />} />
+                <Route
+                  path="view/:productId"
+                  element={<DetailViewProduct title="View Product" />}
+                />
+                <Route
+                  path="view/edit/:productId"
+                  element={<EditProduct title="Edit Product" />}
+                />
+                 <Route
+                  path="addNewProduct"
+                  element={<AddNewProduct title="New Product" />}
+                />
+              </Route>
+
+              <Route path="/orders">
+                <Route index element={<OrderList />} />
+              </Route>
+
+            </Route>
+
+
+
           </Routes>
           <Footer />
         </CartContextProvider>
       </ShopContextProvider>
     </BrowserRouter>
+    // </div>
   );
 }
 

@@ -4,13 +4,12 @@ import Popular from '../Components/Popular/Popular.jsx';
 import Offers from '../Components/Offers/Offers.jsx';
 import NewCollections from '../Components/NewCollections/NewCollections.jsx';
 import NewLetter from '../Components/NewLetter/NewLetter.jsx';
-import Navbar from '../Components/Navbar/Navbar.jsx';
 const Shop = () => {
   return (
     <div>
       <Hero/>
       <Popular/>
-      <Offers/>
+      {/* <Offers/> */}
       <NewCollections/>
       <NewLetter/>
     </div>

@@ -39,7 +39,7 @@ const Product = () => {
 
 
   return (
-    <div>
+    <div >
        <SecondNavbar />
       <Breadcrum product={product} />
       <ProductDisplay product={product} />

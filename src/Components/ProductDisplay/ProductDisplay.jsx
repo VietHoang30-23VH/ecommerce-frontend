@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './ProductDisplay.css';
 import star_icon from '../assets/star_icon.png';
 import star_dull_icon from '../assets/star_dull_icon.png';
@@ -6,9 +6,11 @@ import { formatPrice } from '../Item/Item';
 import Cookies from 'js-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addToCartDetail } from '../../API/ApiDetailCart';
+import { CartContext } from '../../Context/CartContext';
 
 const ProductDisplay = (props) => {
     const { product } = props;
+    const{getTotalQuantityInCart} = useContext(CartContext)
 
     // Lấy ra số lượng của từng size có trong kho hàng của sản phẩm
     const { sizeQuantities } = product;
@@ -17,7 +19,6 @@ const ProductDisplay = (props) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log(product.name +" " +sizeQuantities[selectedSize] + " "+ quantity);
     if (!product) {
         return <div>No product data available</div>;
     }
@@ -50,9 +51,14 @@ const ProductDisplay = (props) => {
             if (sizeQuantities[selectedSize] < quantity) {
                 alert('Số lượng sản phẩm không đủ');
             } else {
-                console.log(product.name +" " +selectedSize + " "+ quantity);
+                try{
                     await addToCartDetail(product,  Number(quantity) , selectedSize);
                     alert('Đã thêm sản phẩm vào giỏ hàng');
+                    await getTotalQuantityInCart();
+                }catch{
+                    alert('Số lượng sản phẩm không còn đủ');
+                }
+                    
             }
         }
     }

@@ -1,4 +1,4 @@
-import { api } from "./ApiClient";
+                    import { api } from "./ApiClient";
 
 export const getTotalQuantityInCart = async () => {
     try {
@@ -13,7 +13,6 @@ export const getTotalQuantityInCart = async () => {
 export const getCartDetail = async (index) => {
     try {
         const response = await api.get(`/detailcart/detail?index=${index}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error adding product to cart:', error);

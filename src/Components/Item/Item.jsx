@@ -13,7 +13,7 @@ export const formatPrice = (price) => {
 const Item = (props) => {
    
     return (
-        <div className='item'>
+        <div className='shop-item'>
           <Link to = {`/product/${props.id}`}><img onClick={window.scrollTo(0,0)} src={props.image} alt=""   style={{ width: '100%' }}  /></Link>  
             <p>{props.name}</p>
             <div className="item-prices">

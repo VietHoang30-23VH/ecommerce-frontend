@@ -3,8 +3,7 @@ import React from 'react';
 import { CiSearch } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { IoIosHeartEmpty } from "react-icons/io";
-import { IoCartOutline } from "react-icons/io5";
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 const SearchBar2 = () => {
   const [search, setSearch] = useState('');
@@ -46,11 +45,11 @@ const SearchBar2 = () => {
       <div className="heart">
         <IoIosHeartEmpty style={{color:'black',fontSize:'2rem',cursor:'pointer'}}/>
       </div>
-      <div className="cart">
+      {/* <div className="cart">
         <Link to="/cart">
           <IoCartOutline style={{ color: 'black', fontSize: '2rem', cursor: 'pointer' }} />
         </Link>
-      </div>
+      </div> */}
     </>
   );
 };

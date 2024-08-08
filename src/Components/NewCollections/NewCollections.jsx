@@ -1,17 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './NewCollections.css'
-import new_collection from '../assets/new_collections'
 import Item from '../Item/Item'
+import { retrieveRandomProduct } from '../../API/ApiProduct'
 
 const NewCollections = () => {
+    const [products, setProduct]  = useState([])
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const response = await retrieveRandomProduct(8);
+            setProduct(response);
+        };
+        fetchProduct();
+      }, []); 
+    
+
     return (
         <div className='new-collections'>
             <h1>NEW COLLECTIONS</h1>
             <hr />
             <div className="collections">
-                {new_collection.map((item, i) => {
+                {products.map((item, i) => {
                     return (
-                        <Item key={i} id={item.id} name={item.name} new_price={item.new_price} old_price={item.old_price} image={item.image} />
+                        <Item key={i} id={item.id} name={item.name} new_price={item.price} image={item.pathImage} />
                     )
                 })}
             </div>

@@ -90,19 +90,26 @@ const ShopContextProvider = (props) => {
         try {
             const index = page - 1;
             const data = await getCartDetail(index);
-            setProducts(data.content);
+            
+            if (data.content.length === 0) {
+                setProducts([]);
+            } else {
+                setProducts(data.content);
+            }
+            
             setPaginationData({
                 totalPages: data.totalPages,
                 totalElements: data.totalElements,
                 size: data.size,
             });
-            setLoading(false);
         } catch (error) {
-            console.error('Error fetching products by gender:', error);
+            console.error('Error fetching cart details:', error);
             setError(error);
+        } finally {
             setLoading(false);
         }
     }, []);
+    
 
     const contextValue = { products, loading, error, fetchProductsBySubCategory, fetchProductsByGender, paginationData, fetchProductBySearch, fetchDetailProductInCart };
 

@@ -6,7 +6,7 @@ import { CartContext } from '../Context/CartContext';
 
 const LoginSignup = () => {
   // xac thuc dang nhap
- const{checkLogin} = useContext(CartContext);
+ const{checkLogin , isLoggedIn} = useContext(CartContext);
 
   const [showSignup, setShowSignup] = useState(false);
   const [username, setUsername] = useState('');
@@ -73,6 +73,7 @@ const LoginSignup = () => {
         await loginUser(emailOrUsername, password);
        await checkLogin();
         const redirectTo = location.state?.from?.pathname || '/';
+        console.log('redirectTo', redirectTo);
         navigation(redirectTo); // Quay lại vị trí đã lưu
     } catch (error) {
         console.error('Error in handleSignin:', error);

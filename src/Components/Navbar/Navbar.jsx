@@ -3,11 +3,12 @@ import './Navbar.css';
 import { RxDividerVertical } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
+import { IoCartOutline } from "react-icons/io5";
 
 import { CartContext } from '../../Context/CartContext';
 
 const Navbar = () => {
-    const { getTotalQuantityInCart, quantity } = useContext(CartContext);
+    const { getTotalQuantityInCart, quantity, isLoggedIn } = useContext(CartContext);
     const [menu, setMenu] = useState('shop');
     const [navbarScrolled, setNavbarScrolled] = useState(false);
 
@@ -36,11 +37,11 @@ const Navbar = () => {
     return (
         <>
             <div className="nav-header">
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <p>XUN_DON</p>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', zIndex: '3', marginTop: '3.5rem', position: 'fixed' }}>
+                    <p style={{ color: 'white' }}>XUN_DON</p>
                 </Link>
             </div>
-            <div className={`navbar ${navbarScrolled ? 'scrolled' : ''}`}>
+            <div className={`shop-navbar ${navbarScrolled ? 'scrolled' : ''}`}>
                 <ul className='nav-menu'>
                     <li onClick={() => setMenu('shop')}>
                         <Link to={`/product/gender/nam`} style={{ textDecoration: 'none', color: 'inherit' }}>NAM</Link>
@@ -57,8 +58,20 @@ const Navbar = () => {
                         {menu === 'kids' && <hr />}
                     </li>
                 </ul>
-                <div className="nav-login-cart" onClick={fetchCart}>
+                <div className="nav-login-cart" >
                     <SearchBar />
+                    <div className="cart">
+                    {!isLoggedIn ? (
+                            <IoCartOutline 
+                                style={{ color:'white',fontSize:'2rem',cursor:'pointer' }} 
+                                onClick={() => fetchCart()} 
+                            />
+                        ) : (
+                            <Link to='/cart'>
+                                <IoCartOutline style={{ color:'white',fontSize:'2rem',cursor:'pointer' }} />
+                            </Link>
+                        )}
+                    </div>
                     <div className="nav-cart-count">{quantity === undefined ? 0 : quantity}</div>
                 </div>
             </div>

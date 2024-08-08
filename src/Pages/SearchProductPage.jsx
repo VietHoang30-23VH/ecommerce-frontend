@@ -59,11 +59,11 @@ const SearchProductPage = () => {
     };
 
     return (
-        <div className='shop-category'>
+        <div className='shop-category search'>
             <SecondNavbar />
-            <div className="shop-category-content">
+            <div className="shop-category-content" style={{marginTop:'2rem'}}>
                 <div className="shop-category-main">
-                    <div className="shop-header" style={{ textAlign: "center", marginTop: "1rem" }}>
+                    <div className="shop-header" style={{ textAlign: "center", marginTop: "3rem" }}>
                         <Link to='/' style={{ textDecoration: 'none', color: "#787878" }}>Trang chủ</Link><span style={{ color: "#787878" }}> / Kết quả tìm kiếm</span>
                     </div>
                     <div className="search" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4rem' }}>

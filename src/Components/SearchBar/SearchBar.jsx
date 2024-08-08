@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { CiSearch } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { IoIosHeartEmpty } from "react-icons/io";
-import { IoCartOutline } from "react-icons/io5";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
@@ -16,6 +15,7 @@ const SearchBar = () => {
       setSearch(''); // Clear the input value after navigation
     }
   };
+
 
   return (
     <>
@@ -45,11 +45,9 @@ const SearchBar = () => {
       <div className="heart">
         <IoIosHeartEmpty style={{color:'white',fontSize:'2rem',cursor:'pointer'}}/>
       </div>
-      <div className="cart">
-        <Link to="/cart">
-          <IoCartOutline style={{ color: 'white', fontSize: '2rem', cursor: 'pointer' }} />
-        </Link>
-      </div>
+      {/* <div className="cart">
+          <IoCartOutline style={{ color: 'white', fontSize: '2rem', cursor: 'pointer' }} onClick={() => fetchCart()} />
+      </div> */}
     </>
   );
 };

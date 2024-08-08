@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Kelly+Slab&display=swap'); 
 
-.navbar {
+.shop-navbar {
     display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 2;
     transition: background-color 0.3s ease;
     padding: 1rem 2rem;
 }
 
-.navbar.scrolled {
+.shop-navbar.scrolled {
     background-color: black;
     padding: 15px 2rem; 
 }

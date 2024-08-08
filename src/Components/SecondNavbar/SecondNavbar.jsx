@@ -1,16 +1,16 @@
-import React, { useEffect, useContext ,useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './SecondNavbar.css';
 import { RxDividerVertical } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import SearchBar2 from '../SearchBar/SearchBar2';
 import { CartContext } from '../../Context/CartContext';
+import { IoCartOutline } from "react-icons/io5";
 
 const SecondNavbar = () => {
-    const { getTotalQuantityInCart, quantity } = useContext(CartContext);
-    console.log(quantity);
+    const { getTotalQuantityInCart, quantity, isLoggedIn } = useContext(CartContext);
     const [menu, setMenu] = useState('shop');
 
-    
+
     const fetchCart = async () => {
         try {
             await getTotalQuantityInCart();
@@ -20,12 +20,12 @@ const SecondNavbar = () => {
     };
     return (
         <>
-            <div className="nav-header">
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="nav-header1">
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', zIndex: '3', position: 'fixed' }}>
                     <p>XUN_DON</p>
                 </Link>
             </div>
-            <div className={`navbar1`}>
+            <div className="navbar1">
                 <ul className='nav-menu1'>
                     <li onClick={() => setMenu('shop')}>
                         <Link to={`/product/gender/nam`} style={{ textDecoration: 'none', color: 'inherit' }}>NAM</Link>
@@ -42,9 +42,22 @@ const SecondNavbar = () => {
                         {menu === 'kids' && <hr />}
                     </li>
                 </ul>
-                <div className="nav-login-cart" onClick={fetchCart}>
+
+                <div className="nav-login-cart">
                     <SearchBar2 />
-                    <div className="nav-cart-count">{quantity=== undefined ? 0: quantity}</div>
+                    <div className="cart">
+                        {!isLoggedIn ? (
+                            <IoCartOutline 
+                                style={{ color:'black',fontSize:'2rem',cursor:'pointer' }} 
+                                onClick={() => fetchCart()} 
+                            />
+                        ) : (
+                            <Link to='/cart'>
+                                <IoCartOutline style={{ color:'black',fontSize:'2rem',cursor:'pointer' }} />
+                            </Link>
+                        )}
+                    </div>
+                    <div className="nav-cart-count">{quantity === undefined ? 0 : quantity}</div>
                 </div>
             </div>
         </>

@@ -12,7 +12,6 @@ const CartContextProvider = (props) => {
 
     // lay token kiem tra nguoi dung da dang nhap chua
     const token = Cookies.get('jwt');
-    console.log(token);
 
     const getTotalQuantityInCart = useCallback(async () => {
         if (!token) {
@@ -22,23 +21,33 @@ const CartContextProvider = (props) => {
 
         try {
             const data = await fetchTotalQuantity();
-            setQuantity(data);
+                setQuantity(data);
         } catch (error) {
             console.error('Failed to fetch cart quantity:', error);
         }
-    }, [token, navigate]);
+    }, [token, navigate ]);
 
     useEffect(() => {
-        if (isLoggedIn) {
-            getTotalQuantityInCart();
-        }
-    }, [isLoggedIn, getTotalQuantityInCart]);
+        const checkLoginStatus = async () => {
+            if (token) {
+                setIsLoggedIn(true); // Đặt trạng thái đăng nhập nếu có token
+                try {
+                    await getTotalQuantityInCart();
+                } catch (error) {
+                    console.error('Failed to fetch cart data:', error);
+                }
+            }
+        };
+    
+        checkLoginStatus();
+    }, [token, getTotalQuantityInCart]);
+
 
     const checkLogin = ()  => {
         setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
     };
 
-    const contextValue = { quantity, getTotalQuantityInCart ,checkLogin};
+    const contextValue = { quantity, getTotalQuantityInCart ,checkLogin ,isLoggedIn};
 
     return (
         <CartContext.Provider value={contextValue}>

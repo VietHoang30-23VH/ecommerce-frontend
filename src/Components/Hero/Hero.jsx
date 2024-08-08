@@ -44,11 +44,11 @@ const Hero = () => {
               ))
             )}
           </div>
-          <div className="hero-latest-btn">
+          {/* <div className="hero-latest-btn">
             <div><Link style={{ color: 'white' }} to='/login'>𝗫𝗘𝗠 𝗡𝗚𝗔𝗬</Link></div>
-          </div>
+          </div> */}
         </div>
-        <div className="hero-right">
+        {/* <div className="hero-right">
           <div className="header-right">
             <h1>SPORTS</h1>
             <h2>PREMIUM SS24</h2>
@@ -59,7 +59,7 @@ const Hero = () => {
             <ul>TIÊU CHUẨN THỜI TRANG HIỆN ĐẠI</ul>
             <RiDoubleQuotesR style={{ fontSize: '2rem', marginLeft: "22rem" }} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
