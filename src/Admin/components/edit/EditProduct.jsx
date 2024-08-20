@@ -2,9 +2,8 @@ import "../../pages/new/new.css";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { retrieveProductById } from "../../../API/ApiProduct";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { retrieveSubCategories } from "../../../API/ApiSubCategory";
 import { modifyProduct } from "../../Api/AdProductApi";
 
@@ -12,6 +11,7 @@ const EditProduct = ({ title }) => {
     const { productId } = useParams();
     const [productData, setProductData] = useState(null);
     const [subCategories, setSubCategories] = useState([]);
+    const navigation = useNavigate();
 
     useEffect(() => {
         const fetchSubCategories = async () => {
@@ -79,9 +79,17 @@ const EditProduct = ({ title }) => {
     }
 
     const handleSubmitEdit = async () => {
+        if(!productData.name || !productData.price || !productData.pathImage || !productData.subCategoryName){
+            alert("Vui lòng điền đầy đủ thông tin sản phẩm!");
+            return;
+        }else if(productData.price < 0){
+            alert("Giá sản phẩm không hợp lệ!");
+            return;
+        }
      try {
             await modifyProduct(productData);
             alert("Sản phẩm đã được chỉnh sửa thành công!");
+            navigation('/products')
         }catch (error) {
             alert("Lỗi sản phẩm khi chỉnh sửa!");
     }
@@ -159,7 +167,7 @@ const EditProduct = ({ title }) => {
                             </div>
                         </form>
                         <div className="button">
-                            <button type="button" onClick={handleSubmitEdit}>Edit</button>
+                            <button type="button" onClick={handleSubmitEdit}>Submit</button>
                         </div>
                     </div>
                 </div>

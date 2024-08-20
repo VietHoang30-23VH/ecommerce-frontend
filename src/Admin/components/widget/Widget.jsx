@@ -4,11 +4,30 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { useEffect, useState } from "react";
+import { api } from "../../../API/ApiClient";
+import { Link } from "react-router-dom";
 
 const Widget = ({ type }) => {
+  const [totalOrder, setTotalOrder] = useState(0);
+
+  useEffect(() => {
+    if (type === "order") {
+      const fetchTotalOrder = async () => {
+        try {
+          const res = await api.get('/admin/order/count');
+          setTotalOrder(res.data);
+        } catch (error) {
+          console.error("Error fetching total orders:", error);
+        }
+      };
+      fetchTotalOrder();
+    }
+  }, [type]);
+
   let data;
 
-  //temporary
+  // Temporary
   const amount = 100;
   const diff = 20;
 
@@ -33,7 +52,7 @@ const Widget = ({ type }) => {
       data = {
         title: "ORDERS",
         isMoney: false,
-        link: "View all orders",
+        link: <Link to={'/orders'} style={{textDecoration:'none'}}>View All Orders</Link>,
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -83,7 +102,7 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {data.isMoney && "$"} {type === "order" ? totalOrder : amount}
         </span>
         <span className="link">{data.link}</span>
       </div>

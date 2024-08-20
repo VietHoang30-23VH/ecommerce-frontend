@@ -22,7 +22,6 @@ const DatableOrder = () => {
     const [data, setData] = useState([]);
     const [columns, setColumns] = useState([]);
     const [open, setOpen] = useState(false);
-    // const [selectedProduct, setSelectedProduct] = useState(null);
     const [orderDetails, setOrderDetails] = useState([]);
 
     const fetchData = useCallback(async () => {
@@ -72,6 +71,7 @@ const DatableOrder = () => {
     const handleOpen = async (orderId) => {
         try {
             const response = await getDetailOrderByOrderId(orderId);
+            console.log(response);
             setOrderDetails(response);
             setOpen(true);
         } catch (error) {
@@ -88,7 +88,7 @@ const DatableOrder = () => {
         const confirmed = window.confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?');
         if (confirmed) {
             try {
-                await api.delete(`/admin/order/delete/${id}`)
+                await deleteProduct(id);
                 alert('Đơn hàng đã được xóa thành công!');
                 await fetchData();
             } catch (error) {

@@ -1,39 +1,56 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import './CSS/ShopCategory.css';
 import { ShopContext } from '../Context/ShopContext';
 import dropdown_icon from '../Components/assets/dropdown_icon.png';
 import Item from '../Components/Item/Item';
-import Sidebar from '../Components/Sidebar/Sidebar';
 import SecondNavbar from '../Components/SecondNavbar/SecondNavbar';
 import { useParams } from 'react-router-dom';
 import PaginationRounded from '../Components/Pagination/PaginationRounded';
 
-
 const ShopCategory = (props) => {
-    const { id,gender } = useParams();
+    const { id, gender } = useParams();
     const { products, loading, error, fetchProductsBySubCategory, fetchProductsByGender, paginationData } = useContext(ShopContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [shouldFetch, setShouldFetch] = useState(false); // Thêm state theo dõi fetch
+    const currentPageRef = useRef(currentPage);
 
-    
-   
-
+    // Cập nhật giá trị currentPageRef khi currentPage thay đổi
     useEffect(() => {
-        // Khi component mount hoặc currentPage thay đổi, fetch dữ liệu
-        if (id) {
-            fetchProductsBySubCategory(id, currentPage);
-        } else {
-            // Nếu bạn sử dụng fetchProductsByGender, hãy đảm bảo truyền tham số đúng
-            fetchProductsByGender(gender, currentPage);
+        currentPageRef.current = currentPage;
+    }, [currentPage]);
+
+    // Reset currentPage về 1 khi id hoặc gender thay đổi
+    useEffect(() => {
+        setCurrentPage(1);  
+        setShouldFetch(true); // Đặt trạng thái fetch lại
+    }, [id, gender ]);
+
+    // Fetch dữ liệu khi id, gender hoặc currentPage thay đổi
+    useEffect(() => {
+        const fetchProducts = async () => {
+            if (shouldFetch) {
+                if (id) {
+                    await fetchProductsBySubCategory(id, currentPage);
+                } else if (gender) {
+                    await fetchProductsByGender(gender, currentPage);
+                }
+                setShouldFetch(false); // Đặt trạng thái fetch lại sau khi fetch xong
+            }else{
+                if (id) {
+                    await fetchProductsBySubCategory(id,  currentPageRef.current);
+                } else if (gender) {
+                    await fetchProductsByGender(gender,  currentPageRef.current);
+                }
+            }
+
         }
-    }, [id, fetchProductsBySubCategory, fetchProductsByGender, gender, currentPage]);
+        fetchProducts();
+    
+    }, [ currentPage, shouldFetch]);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
-    };
-
-    const handleSearch = (term) => {
-        setSearchTerm(term);
     };
 
     const filteredProducts = (products || []).filter(item =>
@@ -44,7 +61,6 @@ const ShopCategory = (props) => {
         <div className='shop-category'>
             <SecondNavbar />
             <div className="shop-category-content">
-                {/* <Sidebar /> */}
                 <div className="shop-category-main">
                     <img className='shopcategory-banner' src={props.banner} alt="" />
                     <div className="shopcategory-indexSort">
@@ -73,11 +89,11 @@ const ShopCategory = (props) => {
                     </div>
                 </div>
             </div>
-           { paginationData.totalPages > 1 && <PaginationRounded
+            {paginationData.totalPages > 1 && <PaginationRounded
                 count={paginationData.totalPages}
                 page={currentPage}
                 onChange={handlePageChange}
-            />} 
+            />}
         </div>
     );
 }

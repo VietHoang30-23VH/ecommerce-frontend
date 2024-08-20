@@ -47,7 +47,7 @@ const CartContextProvider = (props) => {
         setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
     };
 
-    const contextValue = { quantity, getTotalQuantityInCart ,checkLogin ,isLoggedIn};
+    const contextValue = { quantity, getTotalQuantityInCart ,checkLogin ,isLoggedIn ,setQuantity ,setIsLoggedIn};
 
     return (
         <CartContext.Provider value={contextValue}>

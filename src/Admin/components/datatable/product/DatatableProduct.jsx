@@ -16,7 +16,7 @@ export const DatatableProduct = () => {
 
             // Define columns based on your data structure
             const columns = [
-                { field: 'id', headerName: 'ID', width: 90 },
+                { field: 'id', headerName: 'ID', width: 90 , key : 'id'},
                 { field: 'name', headerName: 'Name', width: 600 },
                 {
                     field: 'price',

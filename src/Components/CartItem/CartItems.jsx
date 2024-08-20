@@ -8,6 +8,7 @@ import PaginationRounded from '../Pagination/PaginationRounded';
 import { updateQuantityInDetailCart } from '../../API/ApiDetailCart';
 import { CartContext } from '../../Context/CartContext';
 import { createOrderForAllProductsInDetailCart, createOrderForSomeProductsInDetailCart } from '../../API/ApiOrder';
+import { HttpStatusCode } from 'axios';
 
 const CartItems = () => {
     const { getTotalQuantityInCart } = useContext(CartContext);
@@ -90,40 +91,76 @@ const CartItems = () => {
         await handleQuantityChange(productName, 0, size); // Set quantity to 0
     };
 
-   const handleSubmitOrder = async () => {
-    if (selectedProducts.length > 0) {
-        setLoading(true); // Hiển thị trạng thái đang tải
-        try {
-            if (selectAll) {
-                await createOrderForAllProductsInDetailCart(totalPrice); // Đặt hàng cho tất cả sản phẩm
-            } else {
-                const orderItems = selectedProducts.map(product => ({
-                    name: product.name,
-                    size: product.size,
-                    quantity: product.quantity,
-                    price: product.price,
-                }));
-                console.log('Order Items:', orderItems);
-                
-                await createOrderForSomeProductsInDetailCart(totalPrice, orderItems); // Đặt hàng cho sản phẩm đã chọn
+    const handleSubmitOrder = async () => {
+        if (selectedProducts.length > 0) {
+            setLoading(true); // Hiển thị trạng thái đang tải
+    
+            try {
+                let response;
+    
+                if (selectAll) {
+                    response = await createOrderForAllProductsInDetailCart(totalPrice);
+                } else {
+                    const orderItems = selectedProducts.map(product => ({
+                        name: product.name,
+                        size: product.size,
+                        quantity: product.quantity,
+                        price: product.price,
+                    }));
+                    response = await createOrderForSomeProductsInDetailCart(totalPrice, orderItems);
+                }
+    
+                console.log('Response:', response);
+                if (response.status === 201) {
+                    // Đặt hàng thành công
+                    console.log('Order placed successfully');
+                    await fetchDetailProductInCart(currentPage);
+                    await getTotalQuantityInCart();
+                    alert('Đặt hàng thành công');
+                }
+            } catch (error) {
+                if (error.response) {
+                    // Xử lý lỗi có phản hồi từ máy chủ
+                    const { status, data } = error.response;
+                    
+                    console.log('Error Status:', status);
+                    
+                    let errorMessage = 'Đặt hàng thất bại: ';
+    
+                    if (status === 400 || status === 422) {
+                        // Lỗi 400 hoặc 422 từ máy chủ
+                        if (typeof data === 'string') {
+                            // Nếu dữ liệu lỗi là chuỗi
+                            errorMessage += 'Không đủ số lượng trong kho hàng cho sản phẩm: ' + data;
+                        } else if (Array.isArray(data)) {
+                            // Nếu dữ liệu lỗi là mảng
+                            errorMessage += 'Không đủ số lượng trong kho hàng cho sản phẩm: ' + data.join(', ');
+                        } else {
+                            // Xử lý lỗi khác
+                            errorMessage += 'Không đủ số lượng trong kho hàng cho sản phẩm: ' + JSON.stringify(data);
+                        }
+                    }
+    
+                    console.log('Error Response:', errorMessage);
+                    alert(errorMessage);
+                } else {
+                    // Xử lý lỗi không có phản hồi từ máy chủ
+                    console.error('Error placing order:', error);
+                    alert('Đặt hàng thất bại');
+                }
+            } finally {
+                setLoading(false); // Ẩn trạng thái đang tải
+                setSelectedProducts([]); // Xóa danh sách sản phẩm đã chọn sau khi đặt hàng
+                setTotalPrice(0); // Reset tổng giá tiền
             }
-
-            // Cập nhật danh sách sản phẩm và số lượng trong giỏ hàng
-            await fetchDetailProductInCart(currentPage); 
-            await getTotalQuantityInCart();
-            alert('Đặt hàng thành công');
-        } catch (error) {
-            console.error('Error placing order:', error);
-            alert('Đặt hàng thất bại');
-        } finally {
-            setLoading(false); // Ẩn trạng thái đang tải
-            setSelectedProducts([]); // Xóa danh sách sản phẩm đã chọn sau khi đặt hàng
-            setTotalPrice(0); // Reset tổng giá tiền
+        } else {
+            alert('Vui lòng chọn ít nhất một sản phẩm để đặt hàng');
         }
-    } else {
-        alert('Vui lòng chọn ít nhất một sản phẩm để đặt hàng');
     }
-}
+    
+    
+
+
 
 
     return (

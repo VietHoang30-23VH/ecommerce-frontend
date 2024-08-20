@@ -25,13 +25,19 @@ const AddNewProduct = ({ title }) => {
             try {
                 const response = await retrieveSubCategories();
                 setSubCategories(response);
+                if (response.length > 0) {
+                    // Set the default subCategoryName to the first item
+                    setProductData(prevState => ({
+                        ...prevState,
+                        subCategoryName: response[0].name
+                    }));
+                }
             } catch (error) {
                 console.error("Lỗi khi lấy thông tin danh mục phụ:", error);
             }
-        }
+        };
         fetchSubCategories();
     }, []);
-
     useEffect(() => {
         const fetchSizes = async () => {
             try {
@@ -51,7 +57,7 @@ const AddNewProduct = ({ title }) => {
         } else {
             setFilteredSizes(sizes.filter(size => size.type === 'quần'));
         }
-    }, [productData.subCategory]);
+    }, [productData.subCategoryName]);
 
     const handleNameChange = (e) => {
         setProductData(prevState => ({
@@ -101,6 +107,9 @@ const AddNewProduct = ({ title }) => {
             return;
         }else if(price<0){
             alert('Giá sản phẩm không được âm.');
+            return; 
+        }else if(quantity<0){
+            alert('Số lượng sản phẩm không được âm.');
             return; 
         }
 

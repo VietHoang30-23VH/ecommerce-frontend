@@ -45,18 +45,18 @@ const Navbar = () => {
                 <ul className='nav-menu'>
                     <li onClick={() => setMenu('shop')}>
                         <Link to={`/product/gender/nam`} style={{ textDecoration: 'none', color: 'inherit' }}>NAM</Link>
-                        {menu === 'shop' && <hr />}
+                        {menu === 'shop' &&  <hr className={navbarScrolled ? 'modify' : ''} /> }
                     </li>
                     <RxDividerVertical style={{ fontSize: '2rem' }} />
                     <li onClick={() => setMenu('womens')}>
                         <Link to={`/product/gender/nữ`} style={{ textDecoration: 'none', color: 'inherit' }}>NỮ</Link>
                         {menu === 'womens' && <hr />}
                     </li>
-                    <RxDividerVertical style={{ fontSize: '2rem' }} />
+                    {/* <RxDividerVertical style={{ fontSize: '2rem' }} />
                     <li onClick={() => setMenu('kids')}>
                         <Link to={`/product/gender/trẻ em`} style={{ textDecoration: 'none', color: 'inherit' }}>TRẺ EM</Link>
                         {menu === 'kids' && <hr />}
-                    </li>
+                    </li> */}
                 </ul>
                 <div className="nav-login-cart" >
                     <SearchBar />

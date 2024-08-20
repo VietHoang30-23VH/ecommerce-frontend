@@ -14,9 +14,24 @@ const LoginSignup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [error, setError] = useState(null); // Chỉnh sửa để lưu thông báo lỗi
 
   const navigation = useNavigate();
   const location = useLocation();
+  const { formType } = location.state || {};
+
+  useEffect(() => {
+    console.log('formType', formType);
+    if (formType === 'signup') {
+      setShowSignup(!showSignup);
+      console.log('showSignup', showSignup);
+    } else {
+      setShowSignup(showSignup);
+      console.log('showSignup', showSignup);
+    }
+  }, []);
+
+  
   useEffect(() => {
     const pwShowHide = document.querySelectorAll('.eye-icon');
 
@@ -52,13 +67,15 @@ const LoginSignup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      alert('Confirm password do not match');
       return;
     } else {
       try {
         await registerUser(username, email, password);
+        alert('Signup successful');
         setShowSignup(false)
         setPassword('');
+        setConfirmPassword('');
       } catch (error) {
         console.error('Error in handleSignup:', error);
       }
@@ -70,20 +87,20 @@ const LoginSignup = () => {
   const handleSingin = async (e) => {
     e.preventDefault();
     try {
-        await loginUser(emailOrUsername, password);
-       await checkLogin();
-        const redirectTo = location.state?.from?.pathname || '/';
-        console.log('redirectTo', redirectTo);
-        navigation(redirectTo); // Quay lại vị trí đã lưu
+      await loginUser(emailOrUsername, password);
+      await checkLogin();
+      const redirectTo = location.state?.from?.pathname || '/';
+      navigation(redirectTo); // Quay lại vị trí đã lưu
     } catch (error) {
-        console.error('Error in handleSignin:', error);
+      console.error('Error in handleSignin:', error);
+      setError("Tài khoản không tồn tại"); // Đặt thông báo lỗi
     }
-};
+  };
 
 
   
     return (
-      <section className={`container forms ${showSignup ? 'show-signup' : ''}`}>
+      <section className={`container forms ${(showSignup ? 'show-signup' : '')}`}>
         <div className="form login">
           <div className="form-content">
             <header>Login</header>
@@ -92,14 +109,15 @@ const LoginSignup = () => {
                 <input type="text" placeholder="Email/UserName" className="input" value={emailOrUsername} onChange={(e) => setEmailOrUsername(e.target.value)} />
               </div>
               <div className="field input-field">
-                <input type="password" placeholder="Password" className="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" placeholder="Password" className="input" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <i className='bx bx-hide eye-icon'></i>
+                {error && <span className="error-message">{error}</span>} {/* Hiển thị thông báo lỗi */}
               </div>
               <div className="form-link">
                 <a href="#" className="forgot-pass">Forgot password?</a>
               </div>
               <div className="field button-field">
-                <button type="button" onClick={handleSingin}>Login</button>
+              <button type="submit" onClick={handleSingin}>Login</button>
               </div>
             </form>
             <div className="form-link">
@@ -132,10 +150,10 @@ const LoginSignup = () => {
                 <input type="email" placeholder="Email" className="input" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="field input-field">
-                <input type="password" placeholder="Create password" className="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" placeholder="Create password" className="input" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
               <div className="field input-field">
-                <input type="password" placeholder="Confirm password" className="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                <input type="password" placeholder="Confirm password" className="input" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                 <i className='bx bx-hide eye-icon'></i>
               </div>
               <div className="field button-field">

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import './CSS/ShopCategory.css';
 import { ShopContext } from '../Context/ShopContext';
 import Item from '../Components/Item/Item';
@@ -17,8 +17,21 @@ const SearchProductPage = () => {
     const [tempSearchTerm, setTempSearchTerm] = useState(search || '');
     const [currentPage, setCurrentPage] = useState(1);
     const [hasError, setHasError] = useState(false);
+    const [shouldFetch, setShouldFetch] = useState(false); // Trạng thái để theo dõi fetch
+    const currentPageRef = useRef(currentPage);
 
-    // Update searchTerm and tempSearchTerm when search from URL changes
+    // Cập nhật giá trị currentPageRef khi currentPage thay đổi
+    useEffect(() => {
+        currentPageRef.current = currentPage;
+    }, [currentPage]);
+
+    // Đặt lại currentPage về 1 khi searchTerm thay đổi
+    useEffect(() => {
+        setCurrentPage(1);  
+        setShouldFetch(true); // Kích hoạt fetch
+    }, [search]);
+
+    // Cập nhật searchTerm và tempSearchTerm khi search từ URL thay đổi
     useEffect(() => {
         if (search !== searchTerm) {
             setSearchTerm(search);
@@ -26,13 +39,23 @@ const SearchProductPage = () => {
         }
     }, [search, searchTerm]);
 
-    // Fetch products based on searchTerm and currentPage
+    // Fetch sản phẩm dựa trên searchTerm và currentPage
     useEffect(() => {
-        if (searchTerm) {
-            fetchProductBySearch(searchTerm, currentPage);
-        }
-    }, [searchTerm, fetchProductBySearch, currentPage]);
+        const fetchProducts = async () => {
+            if (shouldFetch) {
+                    await fetchProductBySearch(searchTerm, currentPage);
+                setShouldFetch(false); // Đặt trạng thái fetch lại sau khi fetch xong
+            } else {
+                if (searchTerm) {
+                    await fetchProductBySearch(searchTerm, currentPageRef.current);
+                }
+            }
+        };
 
+        fetchProducts();
+    }, [ currentPage, shouldFetch]);
+
+    // Xử lý lỗi
     useEffect(() => {
         if (error) {
             setHasError(true);
@@ -41,14 +64,17 @@ const SearchProductPage = () => {
         }
     }, [error]);
 
+    // Xử lý thay đổi trang
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
     };
 
+    // Xử lý thay đổi giá trị input tìm kiếm
     const handleInputChange = (e) => {
         setTempSearchTerm(e.target.value);
     };
 
+    // Xử lý khi nhấn Enter trong ô tìm kiếm
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             if (tempSearchTerm !== searchTerm) {
@@ -61,10 +87,11 @@ const SearchProductPage = () => {
     return (
         <div className='shop-category search'>
             <SecondNavbar />
-            <div className="shop-category-content" style={{marginTop:'2rem'}}>
+            <div className="shop-category-content" style={{ marginTop: '2rem' }}>
                 <div className="shop-category-main">
                     <div className="shop-header" style={{ textAlign: "center", marginTop: "3rem" }}>
-                        <Link to='/' style={{ textDecoration: 'none', color: "#787878" }}>Trang chủ</Link><span style={{ color: "#787878" }}> / Kết quả tìm kiếm</span>
+                        <Link to='/' style={{ textDecoration: 'none', color: "#787878" }}>Trang chủ</Link>
+                        <span style={{ color: "#787878" }}> / Kết quả tìm kiếm</span>
                     </div>
                     <div className="search" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4rem' }}>
                         <div className="search-bar" style={{ display: 'flex', alignItems: 'center', borderBottom: '2px solid black' }}>
@@ -79,10 +106,9 @@ const SearchProductPage = () => {
                             />
                         </div>
                     </div>
-
                     <div className={`shopcategory-products ${hasError ? 'error-layout' : ''}`}>
                         {loading ? (
-                            <p>Loading...</p>
+                            <p>Đang tải...</p>
                         ) : error ? (
                             <div className="error-container">
                                 <p style={{ textAlign: "center", color: "red", fontSize: "20px" }}>Không tìm thấy sản phẩm</p>

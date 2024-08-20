@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './SecondNavbar.css';
 import { RxDividerVertical } from "react-icons/rx";
-import { Link } from 'react-router-dom';
+import { Link ,useParams } from 'react-router-dom';
 import SearchBar2 from '../SearchBar/SearchBar2';
 import { CartContext } from '../../Context/CartContext';
 import { IoCartOutline } from "react-icons/io5";
 
 const SecondNavbar = () => {
+    const{gender} = useParams();
     const { getTotalQuantityInCart, quantity, isLoggedIn } = useContext(CartContext);
     const [menu, setMenu] = useState('shop');
 
@@ -18,6 +19,25 @@ const SecondNavbar = () => {
             console.error('Failed to fetch cart. Please try again later.');
         }
     };
+
+    useEffect(() => {
+        fetchCart();
+    },[fetchCart])
+
+    useEffect(() => {
+        // Set the menu based on gender from the URL params
+        if (gender === 'nam') {
+            setMenu('shop');
+        } else if (gender === 'nữ') {
+            setMenu('womens');
+        } else {
+            setMenu('shop'); // Default or fallback
+        }
+        
+        // Fetch cart data whenever the component mounts or gender changes
+        fetchCart();
+    }, [gender]);
+
     return (
         <>
             <div className="nav-header1">
@@ -36,11 +56,11 @@ const SecondNavbar = () => {
                         <Link to={`/product/gender/nữ`} style={{ textDecoration: 'none', color: 'inherit' }}>NỮ</Link>
                         {menu === 'womens' && <hr />}
                     </li>
-                    <RxDividerVertical style={{ fontSize: '2rem' }} />
+                    {/* <RxDividerVertical style={{ fontSize: '2rem' }} />
                     <li onClick={() => setMenu('kids')}>
                         <Link to={`/product/gender/trẻ em`} style={{ textDecoration: 'none', color: 'inherit' }}>TRẺ EM</Link>
                         {menu === 'kids' && <hr />}
-                    </li>
+                    </li> */}
                 </ul>
 
                 <div className="nav-login-cart">

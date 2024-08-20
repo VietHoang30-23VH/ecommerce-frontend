@@ -7,7 +7,6 @@ export const api = axios.create({
     withCredentials: true, // Đảm bảo gửi cookie với mỗi yêu cầu
 });
 
-console.log('api', api);
 
 // Thêm interceptor để thêm token JWT vào headers của mỗi yêu cầu
 api.interceptors.request.use(
