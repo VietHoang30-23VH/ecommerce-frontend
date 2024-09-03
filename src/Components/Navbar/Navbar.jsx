@@ -12,10 +12,10 @@ const Navbar = () => {
     const [menu, setMenu] = useState('shop');
     const [navbarScrolled, setNavbarScrolled] = useState(false);
 
-    // Fetch cart data function
+    // // Fetch cart data function
     const fetchCart = async () => {
         try {
-            await getTotalQuantityInCart();
+            await getTotalQuantityInCart(true);
         } catch (error) {
             console.error('Failed to fetch cart. Please try again later.');
         }
@@ -64,7 +64,7 @@ const Navbar = () => {
                     {!isLoggedIn ? (
                             <IoCartOutline 
                                 style={{ color:'white',fontSize:'2rem',cursor:'pointer' }} 
-                                onClick={() => fetchCart()} 
+                                onClick={fetchCart} 
                             />
                         ) : (
                             <Link to='/cart'>

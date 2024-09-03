@@ -14,15 +14,15 @@ const SecondNavbar = () => {
 
     const fetchCart = async () => {
         try {
-            await getTotalQuantityInCart();
+            await getTotalQuantityInCart(true);
         } catch (error) {
             console.error('Failed to fetch cart. Please try again later.');
         }
     };
 
-    useEffect(() => {
-        fetchCart();
-    },[fetchCart])
+    // useEffect(() => {
+    //     fetchCart();
+    // },[fetchCart])
 
     useEffect(() => {
         // Set the menu based on gender from the URL params
@@ -35,7 +35,7 @@ const SecondNavbar = () => {
         }
         
         // Fetch cart data whenever the component mounts or gender changes
-        fetchCart();
+        // fetchCart();
     }, [gender]);
 
     return (
@@ -69,7 +69,7 @@ const SecondNavbar = () => {
                         {!isLoggedIn ? (
                             <IoCartOutline 
                                 style={{ color:'black',fontSize:'2rem',cursor:'pointer' }} 
-                                onClick={() => fetchCart()} 
+                                onClick={fetchCart} 
                             />
                         ) : (
                             <Link to='/cart'>

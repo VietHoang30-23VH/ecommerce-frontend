@@ -9,7 +9,7 @@ const ProtectedRoute = ({  }) => {
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
-                  await api.get('/admin/dashboard'); // Gọi API để kiểm tra quyền truy cập
+                  await api.get('/admin/product'); // Gọi API để kiểm tra quyền truy cập
                 setIsAuthorized(true);
             } catch (error) {
                 setIsAuthorized(false);

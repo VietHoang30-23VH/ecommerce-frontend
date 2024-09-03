@@ -21,13 +21,10 @@ const LoginSignup = () => {
   const { formType } = location.state || {};
 
   useEffect(() => {
-    console.log('formType', formType);
     if (formType === 'signup') {
       setShowSignup(!showSignup);
-      console.log('showSignup', showSignup);
     } else {
       setShowSignup(showSignup);
-      console.log('showSignup', showSignup);
     }
   }, []);
 

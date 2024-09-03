@@ -43,7 +43,8 @@ const ProductDisplay = (props) => {
             return;
         }
         // Kiểm tra xem token có tồn tại không
-        const token = Cookies.get('jwt');
+        const token = sessionStorage.getItem('access_token');
+        console.log('token', token);
         if (!token) {
             // Lưu lại vị trí hiện tại và chuyển hướng đến trang đăng nhập
             navigate('/login', { state: { from: location } });

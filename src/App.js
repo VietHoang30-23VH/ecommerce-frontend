@@ -29,9 +29,7 @@ import EditInventory from './Admin/components/edit/EditInventory';
 import SubCategoryList from './Admin/pages/list/subCategoryList/SubCategoryList';
 import Logout from './Pages/Logout';
 import NavbarProvider from './Context/NavbarContext';
-
-
-
+import './API/Interceptor'
 
 
 function App() {

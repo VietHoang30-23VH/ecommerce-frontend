@@ -1,38 +1,40 @@
 import React, { createContext, useCallback, useState , useEffect } from "react";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { getTotalQuantityInCart as fetchTotalQuantity } from "../API/ApiDetailCart"; // Import API function
 
 export const CartContext = createContext(null);
 
 const CartContextProvider = (props) => {
-    const [quantity, setQuantity] = useState();
+    const [quantity, setQuantity] = useState(0);
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Theo dõi trạng thái đăng nhập
 
     // lay token kiem tra nguoi dung da dang nhap chua
-    const token = Cookies.get('jwt');
+    const token = sessionStorage.getItem("access_token");
 
-    const getTotalQuantityInCart = useCallback(async () => {
+    const getTotalQuantityInCart = useCallback(async (isCart) => {
+        console.log('isCart', isCart);
         if (!token) {
-            navigate('/login');
+            if(isCart) {
+                navigate('/login');
+            }
             return;
         }
-
         try {
             const data = await fetchTotalQuantity();
-                setQuantity(data);
+            setQuantity(data);
         } catch (error) {
             console.error('Failed to fetch cart quantity:', error);
         }
-    }, [token, navigate ]);
+    }, [token]);
 
     useEffect(() => {
+       
         const checkLoginStatus = async () => {
             if (token) {
                 setIsLoggedIn(true); // Đặt trạng thái đăng nhập nếu có token
                 try {
-                    await getTotalQuantityInCart();
+                    await getTotalQuantityInCart(true);
                 } catch (error) {
                     console.error('Failed to fetch cart data:', error);
                 }
@@ -40,7 +42,7 @@ const CartContextProvider = (props) => {
         };
     
         checkLoginStatus();
-    }, [token, getTotalQuantityInCart]);
+    }, [getTotalQuantityInCart]);
 
 
     const checkLogin = ()  => {
